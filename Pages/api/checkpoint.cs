@@ -23,23 +23,33 @@ namespace MELI.Pages
             _dataService = dataService;
         }
 
-        [HttpPut]
-        public async Task<ActionResult> handleEnvio([FromBody] List<Checkpoint> envio)
+
+        [HttpGet]
+        public async Task<ActionResult> getAllCheckpoints()
+        {
+            List<Checkpoint> checkpoints = await _dataService.GetCheckpointAsync();
+
+            return new JsonResult(checkpoints.OrderByDescending(C => C.idEvento).ToList());
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult> getCheckpointByID([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return handleErr();
             }
 
-            // POR CADA CHECKPOINT DEL ENVIO; VOY A ACTUALIZAR EL LISTADO DE CONTROL
-            foreach (Checkpoint item in envio)
+            Checkpoint control = await _dataService.GetCheckpointByIDAsync(id);
+
+            if (control == null)
             {
-                handleCheckpoint(item);
+                return new NotFoundResult();
             }
-
-            List<Checkpoint> checkpoints = await _dataService.GetCheckpointAsync();
-
-            return new JsonResult(checkpoints.OrderByDescending(C => C.idEvento).ToList());
+            else
+            {
+                return new JsonResult(control);
+            }
         }
 
         [HttpPost("{id}")]
@@ -64,34 +74,25 @@ namespace MELI.Pages
             }
         }
 
-
-        [HttpGet]
-        public async Task<ActionResult> getAllCheckpoints()
-        {
-            List<Checkpoint> checkpoints = await _dataService.GetCheckpointAsync();
-
-            return new JsonResult(checkpoints.OrderByDescending(C => C.idEvento).ToList());
-        }
-
-        [HttpGet("{id}")]
-        public async Task<ActionResult> getCheckpointByID([FromRoute] int id)
+        [HttpPut]
+        public async Task<ActionResult> handleEnvio([FromBody] List<Checkpoint> envio)
         {
             if (!ModelState.IsValid)
             {
                 return handleErr();
             }
 
-            Checkpoint control = await _dataService.GetCheckpointByIDAsync(id);
+            // POR CADA CHECKPOINT DEL ENVIO; VOY A ACTUALIZAR EL LISTADO DE CONTROL
+            foreach (Checkpoint item in envio)
+            {
+                handleCheckpoint(item);
+            }
 
-            if ( control == null)
-            {
-                return new NotFoundResult();
-            }
-            else
-            {
-                return new JsonResult(control);
-            }
+            List<Checkpoint> checkpoints = await _dataService.GetCheckpointAsync();
+
+            return new JsonResult(checkpoints.OrderByDescending(C => C.idEvento).ToList());
         }
+
 
         private void handleCheckpoint(Checkpoint item)
         {
@@ -136,6 +137,7 @@ namespace MELI.Pages
         }
 
         private int getValorEstado(Checkpoint item)
+
         {
             switch (item.estado)
             {

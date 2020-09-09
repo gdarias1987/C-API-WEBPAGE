@@ -1,37 +1,116 @@
-﻿.leftPanel {
-    flex: 3;
-/*    background-color: red;*/
-    height: 100% !important;
-    display:flex;
-    flex-direction:row;
+﻿.mainBody {
+    flex-direction: row !important;
+    padding: 0.125rem !important;
 }
 
-.databasePanel{
+.leftPanel {
+    flex: 3;
+    /*    background-color: red;*/
+    height: 100% !important;
+    display: flex;
+    flex-direction: column;
+}
+
+.panel_1 {
+    flex: 1;
+    width: 100%;
+    background-color: rgba(32,32,32,0.5);
+    border-radius: 5px;
+    border: 1px solid rgba(0,0,0,1);
+}
+
+.panel_2 {
+    flex: 4;
+    width: 100%;
+    background-color: rgba(32,32,32,0.5);
+    border-radius: 5px;
+    border: 1px solid rgba(0,0,0,1);
+    margin-top: 0.125rem;
+    display:flex;
+    flex-direction: row !important;
+}
+
+.flexRow1 {
+    flex: 1;
+    height: 100% !important;
+    border-radius: 5px;
+/*    padding: 0.125rem;*/
+}
+
+.flexRow2 {
+    flex: 2;
+    height: 100% !important;
+    border-radius: 5px;
+/*    padding: 0.125rem;*/
+}
+
+.dataSelect{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    flex-direction: column !important;
+}
+
+
+.databasePanel {
     flex: 1;
     height: 100% !important;
     background: rgba(32,32,32,0.5);
     border-radius: 10px;
-    margin:0.25rem;
-    padding:0.25rem;
+    margin: 0.25rem;
+    padding: 0.25rem;
 }
 
-.mainBody{
-    flex-direction:row !important;
-}
 
-.panel_1{
-    flex:1;
-    height:100%;
-    background:red;
-}
-
-.panel_2 {
-/*    flex: 1;*/
-    width: 300px;
-    height: 100%;
-    background: black;
-}
 
 #tablaCheckpoint {
     height: 100% !important;
+    font-weight:bold;
+    font-size: small;
+    color:black;
+}
+
+.tableTitle{
+    background: rgba(32,32,32,0.5);
+    color: white;
+    font-weight:bold;
+    text-align: center;
+    padding:0;
+    margin:0;
+    border-radius: 5px;
+}
+
+
+thead {
+    background: rgba(32,32,32,0.5);
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 5px;
+}
+
+td{
+    text-align:center;
+}
+
+
+.GRID {
+    display:flex;
+    justify-content:center;
+    align-items: center;
+
+    flex-direction: column;
+    height: 100%;
+}
+
+.GRID .row{
+/*    background:green;*/
+    height:100%;
+    width:100%;
+}
+
+.selected {
+    background: rgba(170, 219, 29, 0.5) !important;
+    border-radius: 5px !important;
 }

@@ -7,13 +7,18 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="~/lib/datatables/datatables.min.css" />
 
+    <link rel="stylesheet" href="~/lib/jquery-UI/jquery-ui.css" />
+    <link rel="stylesheet" href="~/lib/jquery-UI/jquery-ui.theme.css" />
+    <link rel="stylesheet" href="~/lib/jquery-UI/jquery-ui.structure.css" />
+
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/index.css" asp-append-version="true" />
-
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/lib/datatables/datatables.min.js"></script>
+    <script src="~/lib/jquery/dist/popper.js"></script>
+    <script src="~/lib/jquery-UI/jquery-ui.js"></script>
 
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/index.js" asp-append-version="true"></script>
@@ -34,17 +39,53 @@
                             <a class="nav-link text-dark" asp-area="" asp-page="/Index">Página Principal</a>
                         </li>
                         @*<li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/api/checkpoint">Checkpoints</a>
-                        </li>*@
+                                <a class="nav-link text-dark" asp-area="" asp-page="/api/checkpoint">Checkpoints</a>
+                            </li>*@
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
     <div class="container-fluid mainBody">
-            @RenderBody()
+        @RenderBody()
     </div>
 
     @RenderSection("Scripts", required: false)
+
+    @* -----                                                                                                         LOADING ----- *@
+    <div id="loading-div-background">
+        <div id="loading-div" class="ui-corner-all">
+            <div class="sk-circle">
+                <div class="sk-circle1 sk-child"></div>
+                <div class="sk-circle2 sk-child"></div>
+                <div class="sk-circle3 sk-child"></div>
+                <div class="sk-circle4 sk-child"></div>
+                <div class="sk-circle5 sk-child"></div>
+                <div class="sk-circle6 sk-child"></div>
+                <div class="sk-circle7 sk-child"></div>
+                <div class="sk-circle8 sk-child"></div>
+                <div class="sk-circle9 sk-child"></div>
+                <div class="sk-circle10 sk-child"></div>
+                <div class="sk-circle11 sk-child"></div>
+                <div class="sk-circle12 sk-child"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="dialog-notificacion" title="NOTIFICACIÓN" class="color-grey" style="display:none;">
+        <div class="GRID text-center">
+            <div class="row h-100 w-100 justify-content-center">
+                <div class="col col-9 centrar">
+                    <h3 class="text-center" id="response"></h3>
+                </div>
+            </div>
+            <div class="row h-100 w-100 justify-content-center">
+                <div class="col col-6 centrar">
+                    <button class="btn btn-dark btn-lg font-weight-bold w-100 h-50" id="closeNotificacion"> CERRAR VENTANA </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>

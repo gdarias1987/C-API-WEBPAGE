@@ -8,7 +8,10 @@ namespace MELI.Models
     public class Checkpoint
     {
         // EN ESTE LISTADO DE CONTROL VOY A GUARDAR LOS EVENTOS QUE LLEGUEN; CON SU ULTIMO ESTADO
-        public static List<Checkpoint> listado = new List<Checkpoint>();
+        public static List<Checkpoint> listado = new List<Checkpoint>()
+        {
+            new Checkpoint(1)
+        };
 
         public Checkpoint() { }
 
