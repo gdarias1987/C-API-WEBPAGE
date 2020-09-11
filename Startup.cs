@@ -2,14 +2,21 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using HealthChecks.System;
+using HealthChecks.UI.Client;
+using MELI.Helpers;
 using MELI.Services;
+using MELI.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace MELI
 {
@@ -22,7 +29,6 @@ namespace MELI
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAuthentication(options =>
@@ -33,10 +39,12 @@ namespace MELI
             })
                 .AddCookie(options =>
             {
-                options.LoginPath = "/";
+                options.LoginPath = "/Login";
                 options.LogoutPath = "/";
                 options.AccessDeniedPath = "/Error";
             });
+
+            services.AddCors(); // DEV JWT
 
             services.AddHttpContextAccessor();
 
@@ -48,16 +56,34 @@ namespace MELI
             services.AddControllers()
                 .AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null); // ADDED
 
-            services.AddSingleton<IDataService, DataServiceMySQL>();
+            services.AddHealthChecks()
+                .AddMySql(Configuration["ConnectionString:MySQL"])
+                .AddDiskStorageHealthCheck(delegate(DiskStorageOptions diskStorageOptions){
+                    diskStorageOptions.AddDrive(@"C:\", 1000);
+                },"SSD_Drive",HealthStatus.Degraded);
+
+            string serviceType = Configuration["DataService"];
+
+            //ADDES
+            switch (serviceType)
+            {
+                case "MySQL":
+                    services.AddSingleton<IDataService, DataServiceMySQL>();
+                    break;
+                default:
+                    services.AddSingleton<IDataService, DataServiceDynamic>();
+                    break;
+            }
+
+            services.AddSingleton<ILoggerService, LoggerService>();
 
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                    app.UseDeveloperExceptionPage();
             }
             else
             {
@@ -70,8 +96,21 @@ namespace MELI
 
             app.UseRouting();
 
+            app.UseCors(x => x
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
+
+            app.UseMiddleware<JwtMiddleware>(); // ADDED
+
             app.UseAuthentication(); // ADDED
             app.UseAuthorization();
+
+            app.UseHealthChecks("/hc", new HealthCheckOptions()
+            {
+                Predicate = _ => true,
+                ResponseWriter =    UIResponseWriter.WriteHealthCheckUIResponse
+            });
 
             app.UseEndpoints(endpoints =>
             {

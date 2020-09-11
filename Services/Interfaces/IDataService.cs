@@ -15,5 +15,16 @@ namespace MELI.Services
         Task<Checkpoint> CreateCheckpointAsync(int id);
 
         Task UpdateCheckpointAsync(Checkpoint item);
+
+
+
+
+
+
+
+        // USER LOGIN && JWT
+        Task<Usuario> CheckUserLogin(Usuario usuario);
+
+        Task<Usuario> GetUsuarioByIDAsync(int userId);
     }
 }

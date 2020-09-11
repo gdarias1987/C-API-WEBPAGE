@@ -88,6 +88,16 @@ html {
     align-items: center;
 }
 
+.panelLogin {
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    background: rgba(32,32,32,0.5);
+    padding: 20px;
+    border-radius: 5px;
+}
+
 .centrar{
     display:flex;
     justify-content:center;

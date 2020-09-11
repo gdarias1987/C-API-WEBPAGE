@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MELI.Helpers;
 using MELI.Models;
 using MELI.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -23,7 +24,7 @@ namespace MELI.Pages
             _dataService = dataService;
         }
 
-
+        [ControlAutorizacion]
         [HttpGet]
         public async Task<ActionResult> getAllCheckpoints()
         {
@@ -32,6 +33,7 @@ namespace MELI.Pages
             return new JsonResult(checkpoints.OrderByDescending(C => C.idEvento).ToList());
         }
 
+        [ControlAutorizacion]
         [HttpGet("{id}")]
         public async Task<ActionResult> getCheckpointByID([FromRoute] int id)
         {
@@ -52,6 +54,7 @@ namespace MELI.Pages
             }
         }
 
+        [ControlAutorizacion]
         [HttpPost("{id}")]
         public async Task<ActionResult> createCheckpoint([FromRoute] int id)
         {
@@ -70,10 +73,11 @@ namespace MELI.Pages
             {
                 Checkpoint nuevo = await _dataService.CreateCheckpointAsync(id);
 
-                return new JsonResult(nuevo);
+                return new JsonResult(nuevo) { StatusCode = StatusCodes.Status201Created };
             }
         }
 
+        [ControlAutorizacion]
         [HttpPut]
         public async Task<ActionResult> handleEnvio([FromBody] List<Checkpoint> envio)
         {
@@ -85,7 +89,7 @@ namespace MELI.Pages
             // POR CADA CHECKPOINT DEL ENVIO; VOY A ACTUALIZAR EL LISTADO DE CONTROL
             foreach (Checkpoint item in envio)
             {
-                handleCheckpoint(item);
+                await handleCheckpoint(item);
             }
 
             List<Checkpoint> checkpoints = await _dataService.GetCheckpointAsync();
@@ -94,10 +98,11 @@ namespace MELI.Pages
         }
 
 
-        private void handleCheckpoint(Checkpoint item)
+        private async Task handleCheckpoint(Checkpoint item)
         {
             // TRAIGO EL EVENTO RELACIONADO AL CHECKPOINT RECIBIDO CON EL ULTIMO ESTADO
-            Checkpoint control = Checkpoint.listado.Where(C => C.idEvento == item.idEvento ).FirstOrDefault();
+            //Checkpoint control = Checkpoint.listado.Where(C => C.idEvento == item.idEvento ).FirstOrDefault();
+            Checkpoint control = await _dataService.GetCheckpointByIDAsync(item.idEvento);
 
             if ( control != null )
             {
@@ -106,7 +111,7 @@ namespace MELI.Pages
 
                 if (nuevoEstado > actualEstado)
                 {
-                    _dataService.UpdateCheckpointAsync(item);
+                    await _dataService.UpdateCheckpointAsync(item);
                 }
             }
 

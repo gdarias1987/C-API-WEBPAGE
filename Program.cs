@@ -21,6 +21,7 @@ namespace MELI
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                });
+                })
+            ;
     }
 }

@@ -1,0 +1,24 @@
+﻿@using Microsoft.AspNetCore.Identity
+
+    <ul class="navbar-nav w-100 ">
+        @if (User.Identity.IsAuthenticated)
+        {
+            <ul class="navbar-nav flex-grow-1">
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-area="" asp-page="/Index">Página Principal</a>
+                </li>
+                @*<li class="nav-item">
+                    <a class="nav-link text-dark" asp-area="" asp-page="/api/checkpoint">Checkpoints</a>
+                </li>*@
+            </ul>   
+            <li class="nav-item">
+                <a class="nav-link text-dark"> Bienvenido  <b>@User.Identity.Name</b>  </a>
+            </li>
+            <li class="nav-item">
+
+                <form action="/api/user/logoutUser" method="post">
+                    <button type="submit" class="btn btn-danger btnSalir">Salir</button>
+                </form>
+            </li>
+        }
+    </ul>

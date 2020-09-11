@@ -52,7 +52,7 @@ var initModalNotificar = (text) => {
         width: "60%",
         modal: true,
         create: function (event, ui) {
-            $("#response").text(text);
+            $("#response").html(text);
         },
         open: function (event, ui) {
 

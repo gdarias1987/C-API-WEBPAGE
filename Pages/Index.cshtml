@@ -5,8 +5,8 @@
 }
 @*
     CREAR UN CHECKPOINT --> OK
-    ENVIO ACTUALIZACIONES MULTIPLES CHECKPOINTS
-    ACTUALIZAR TABLA 5'
+    ENVIO ACTUALIZACIONES MULTIPLES CHECKPOINTS --> OK
+    ACTUALIZAR TABLA 5' 
     BORRAR BBDD
     MYSQL*@
 
@@ -15,21 +15,36 @@
 
             <div class="GRID">
                 <div class="row justify-content-center align-items-end text-center mb-1">
-                    <div class="col-9">
+                    <div class="col-6">
                         <h5 class="tableTitle">INGRESAR NUEVO SHIPMENT</h5>
+                    </div>
+                    <div class="col-6">
+                        <h5 class="tableTitle">BUSCAR SHIPMENT BY ID</h5>
                     </div>
                 </div>
                 <div class="row justify-content-center align-items-start">
-                    <div class="col-3 d-flex justify-content-end align-items-center">
+
+                    <div class="col-2 d-flex justify-content-end align-items-center">
                         <h5 class="text-center text-black-50 m-0 mt-2">ID EVENTO</h5>
                     </div>
-                    <div class="col-3 centrar">
+                    <div class="col-2 centrar">
                         <input type="text" id="newCheckpoint" class="form-control text-center" />
                     </div>
-                    <div class="col-3 centrar">
+                    <div class="col-2 centrar">
                         <button class="btn btn-dark w-100" id="btnCrearCheckpoint">CREAR</button>
                     </div>
+
+                    <div class="col-2 d-flex justify-content-end align-items-center">
+                        <h5 class="text-center text-black-50 m-0 mt-2">ID EVENTO</h5>
+                    </div>
+                    <div class="col-2 centrar">
+                        <input type="text" id="searchCheckpoint" class="form-control text-center" />
+                    </div>
+                    <div class="col-2 centrar">
+                        <button class="btn btn-dark w-100" id="btnBuscarCheckpoint">BUSCAR</button>
+                    </div>
                 </div>
+
             </div>
 
         </div>
@@ -46,21 +61,32 @@
             </div>
             <div class="flexRow2 dataSelect">
 
-                <select class="form-control selectCustom" id="selectEstado">
-                    <option value="Handling">Handling</option>
-                    <option value="Ready To Ship">Ready To Ship</option>
-                    <option value="Shipped">Shipped</option>
-                    <option value="Delivered">Delivered</option>
-                    <option value="Not Delivered">Not Delivered</option>
-                </select>
+                <div class="d-flex">
+                    <div class="row h-100">
+                        <div class="col-12">
+                            <h5 class="tableTitle">NUEVO ESTADO CHECKPOINT</h5>
+                        </div>
 
-                <select class="form-control selectCustom" id="selectSubestado">
-                    <option value="Null">Null</option>
-                    <option value="Manufacturing">Manufacturing</option>
-                </select>
-
-                <button class="btn btn-dark w-100" id="addPendiente">AGREGAR PENDIENTE</button>
-
+                        <div class="col-12 pt-1">
+                            <select class="form-control selectCustom" id="selectEstado">
+                                <option value="Handling">Handling</option>
+                                <option value="Ready To Ship">Ready To Ship</option>
+                                <option value="Shipped">Shipped</option>
+                                <option value="Delivered">Delivered</option>
+                                <option value="Not Delivered">Not Delivered</option>
+                            </select>
+                        </div>
+                        <div class="col-12 pt-2">
+                            <select class="form-control selectCustom" id="selectSubestado">
+                                <option value="null">Null</option>
+                                <option value="Manufacturing">Manufacturing</option>
+                            </select>
+                        </div>
+                        <div class="col-12 pt-2">
+                            <button class="btn btn-dark w-100 " id="addPendiente">AGREGAR PENDIENTE</button>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="flexRow2">
                 <h5 class="tableTitle">TABLA PENDIENTES</h5>
@@ -70,6 +96,7 @@
                             <th>ID</th>
                             <th>ESTADO</th>
                             <th>SUB-ESTADO</th>
+                            <th>REMOVER</th>
                         </tr>
                     </thead>
                 </table>
@@ -86,6 +113,7 @@
                 <th>ID</th>
                 <th>ESTADO</th>
                 <th>SUB-ESTADO</th>
+                <th>TIMESTAMP</th>
             </tr>
         </thead>
     </table>

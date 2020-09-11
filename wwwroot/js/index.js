@@ -6,7 +6,12 @@
 });
 
 var listener = () => {
+
     $("#newCheckpoint").inputFilter(function (value) {
+        return /^\d*$/.test(value);
+    });
+
+    $("#searchCheckpoint").inputFilter(function (value) {
         return /^\d*$/.test(value);
     });
 
@@ -34,6 +39,27 @@ var listener = () => {
                     }
                     else {
                         initModalNotificar("El ID del evento ingresado ya existe");
+                    }
+                }
+            });
+        }
+    });
+
+    $("#btnBuscarCheckpoint").click((e) => {
+        var idEvento = $("#searchCheckpoint").val();
+
+        if (idEvento != "") {
+            $.ajax({
+                "url": "api/checkpoint/" + idEvento,
+                "type": "GET",
+                "beforeSend": function () { showLoadingDiv(); },
+                "complete": function (resp) {
+                    hideLoadingDiv();
+                    if (resp.status == 200) {
+                        initModalNotificar("Informacion ID N°: " + idEvento + " </br> Estado: " + resp.responseJSON.estado + " / Subestado: " + resp.responseJSON.subestado );
+                    }
+                    else {
+                        initModalNotificar("El ID del evento ingresado NO existe");
                     }
                 }
             });
@@ -69,7 +95,7 @@ var listener = () => {
 
         switch (seleccion) {
             case "Handling":
-                $('#selectSubestado').append(`<option value="Null" selected>Null</option>`); 
+                $('#selectSubestado').append(`<option value="null" selected>Null</option>`); 
                 $('#selectSubestado').append(`<option value="Manufacturing">Manufacturing</option>`); 
                 break;
             case "Ready To Ship":
@@ -77,12 +103,12 @@ var listener = () => {
                 $('#selectSubestado').append(`<option value="Printed">Printed</option>`);
                 break;
             case "Shipped":
-                $('#selectSubestado').append(`<option value="Null" selected>Null</option>`);
+                $('#selectSubestado').append(`<option value="null" selected>Null</option>`);
                 $('#selectSubestado').append(`<option value="Soon Deliver">Soon Deliver</option>`);
                 $('#selectSubestado').append(`<option value="Waiting For Withdrawal">Waiting For Withdrawal</option>`);
                 break;
             case "Delivered":
-                $('#selectSubestado').append(`<option value="Null" selected>Null</option>`);
+                $('#selectSubestado').append(`<option value="null" selected>Null</option>`);
                 break;
             case "Not Delivered":
                 $('#selectSubestado').append(`<option value="Lost" selected>Lost</option>`);
@@ -102,8 +128,8 @@ var listener = () => {
             var subestado = $("#selectSubestado").val();
             var pendiente = {
                 "idEvento": data.idEvento,
-                "estado": estado,
-                "subestado": subestado
+                "estado": estado == "null" ? null : estado,
+                "subestado": subestado == "null" ? null : subestado
             };
 
             listadoPendientes.push(pendiente);
@@ -158,6 +184,11 @@ var loadDatabase = () => {
                 "render": function (data, type, full, meta) {
                     return full.subestado == null ? "null" : full.subestado;
                 }
+            },
+            {
+                "render": function (data, type, full, meta) {
+                    return full.timestamp;
+                }
             }
         ]
     });
@@ -198,14 +229,17 @@ var loadSecondTable = () => {
     });
 };
 
+var tablaPendienteHeight;
+
 var loadTablaPendiente = () => {
-    var tablaHeight = $(".flexRow2").height() - 80 - $("#enviarPendientes").height();
+    if (tablaPendienteHeight == undefined)
+        tablaPendienteHeight = $(".panel_2").height() - 80 - $("#enviarPendientes").height();
 
     tablaPendientes = $("#tablaPendientes").DataTable({
         "dom": "tp",
         "destroy": true,
         "paging": false,
-        "scrollY": tablaHeight,
+        "scrollY": tablaPendienteHeight,
         "data": listadoPendientes,
         "language": idioma_espanol,
         "columns": [
@@ -224,11 +258,29 @@ var loadTablaPendiente = () => {
                 "render": function (data, type, full, meta) {
                     return full.subestado == null ? "null" : full.subestado;
                 }
+            },
+            {
+                "render": function (data, type, full, meta) {
+                    return "<button class='btn btn-danger w-100 remover'>  <span aria-hidden='true'>&times;</span></button>"
+                }
             }
         ]
     });
 
+    listenerTablePendientes("#tablaPendientes tbody", tablaPendientes);
 };
+
+var listenerTablePendientes = (tbody, table) => {
+    $(tbody).on("click", "button.remover", function () {
+        var data = tablaPendientes.row($(this).parents("tr")).data();
+
+        listadoPendientes = jQuery.grep(listadoPendientes, (item) => {
+            return item.idEvento != data.idEvento;
+        });
+
+        loadTablaPendiente();
+    });
+}
 
 
 

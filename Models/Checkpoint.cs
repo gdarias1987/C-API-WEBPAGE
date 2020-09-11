@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace MELI.Models
 {
-    public class Checkpoint
+    public class Checkpoint 
     {
         // EN ESTE LISTADO DE CONTROL VOY A GUARDAR LOS EVENTOS QUE LLEGUEN; CON SU ULTIMO ESTADO
         public static List<Checkpoint> listado = new List<Checkpoint>()
@@ -20,6 +20,7 @@ namespace MELI.Models
             this.idEvento = id;
             this.estado = "Handling";
             this.subestado = null;
+            this.timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
         }
 
         public Checkpoint(Checkpoint checkpoint)
@@ -27,6 +28,7 @@ namespace MELI.Models
             this.idEvento = checkpoint.idEvento;
             this.estado = checkpoint.estado;
             this.subestado = checkpoint.subestado;
+            this.timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
         }
 
         public int idEvento { get; set; } = -1;
@@ -34,5 +36,11 @@ namespace MELI.Models
         public string estado { get; set; } = "";
 
         public String subestado { get; set; } = null;
+
+        public string timestamp { get; set; }
+
+        public string UserId { get; set; }
+        
+        public string Ip { get; set; }
     }
 }
