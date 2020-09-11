@@ -1,11 +1,15 @@
 API - Examen MercadoLibre
 
 Funciones: 
-	- Se deberá generar un token JWT para realizar las operaciones de la API
-	- Se podrá crear eventos con su estado inicial en "Handling" y subestado en "null". 
-	- Se podrá recibir un paquete de checkpoint asincrónicos, y actualizar los checkpoints por su ID en su último estado lógico. 
-	- Se podrá consultar la información de un evento especifico mediante su ID.
-	- Se podrán visualizar todas las funciones mediante la UI desarrollada para la página inicial.
+	- Se deberÃ¡ generar un token JWT para realizar las operaciones de la API
+	
+	- Se podrÃ¡ crear eventos con su estado inicial en "Handling" y subestado en "null". 
+	
+	- Se podrÃ¡ recibir un paquete de checkpoint asincrÃ³nicos, y actualizar los checkpoints por su ID en su Ãºltimo estado lÃ³gico. 
+	
+	- Se podrÃ¡ consultar la informaciÃ³n de un evento especifico mediante su ID.
+	
+	- Se podrÃ¡n visualizar todas las funciones mediante la UI desarrollada para la pÃ¡gina inicial.
 
 __________________________________________________________________________________________________________________
 Modelo de datos:
@@ -29,9 +33,9 @@ JWT LOGIN
 ____________
 
  Method: POST -> /api/user/jwt
- Función: GenToken 
- Descripción: Esta función permite obtener un token para realizar las operaciones en la API. Se requieren las credenciales de usuario en el cuerpo, en formato JSON. El token tiene validez por 24 horas.
-					El token ingresado deberá estar en la cabecera del request de la operación a realizar, con el key Autorization y en el valor el token.
+ FunciÃ³n: GenToken 
+ DescripciÃ³n: Esta funciÃ³n permite obtener un token para realizar las operaciones en la API. Se requieren las credenciales de usuario en el cuerpo, en formato JSON. El token tiene validez por 24 horas.
+					El token ingresado deberÃ¡ estar en la cabecera del request de la operaciÃ³n a realizar, con el key Autorization y en el valor el token.
 
  Json entrada -> 
 	{
@@ -62,8 +66,8 @@ CHECKPOINTS
 ____________
 
  Method: GET  -> api/checkpoint/
- Función: getAllCheckpoints 
- Descripción: Esta función permite obtener como resultado un array en formato JSON con los eventos.
+ FunciÃ³n: getAllCheckpoints 
+ DescripciÃ³n: Esta funciÃ³n permite obtener como resultado un array en formato JSON con los eventos.
 
  Json entrada -> Null
  
@@ -86,8 +90,8 @@ ____________
 ______________________________________
  
  Method: GET -> api/checkpoint/ID
- Función: getCheckpointByID
- Descripción: Esta función permite obtener un Evento especifico mediante su ID. El atributo "ID" en el url, debe ser un entero.
+ FunciÃ³n: getCheckpointByID
+ DescripciÃ³n: Esta funciÃ³n permite obtener un Evento especifico mediante su ID. El atributo "ID" en el url, debe ser un entero.
  
  Json entrada -> Null
  Json salida -> 
@@ -133,8 +137,8 @@ ______________________________________
 ______________________________________	
  
  Method: POST -> api/checkpoint/ID
- Función: createCheckpoint
- Descripción: Esta Función permite generar un nuevo Evento, indicando en el atributo "ID", el numero de evento.
+ FunciÃ³n: createCheckpoint
+ DescripciÃ³n: Esta FunciÃ³n permite generar un nuevo Evento, indicando en el atributo "ID", el numero de evento.
  
  Json entrada -> Null
  Json salida -> 
@@ -181,8 +185,8 @@ ______________________________________
 	
 ______________________________________
  Method: PUT -> api/checkpoint/
- Función: handleEnvio
- Descripción: Esta función permite recibir un conjunto de checkpoints, y actualizar los estados/subestados correspondientes. 
+ FunciÃ³n: handleEnvio
+ DescripciÃ³n: Esta funciÃ³n permite recibir un conjunto de checkpoints, y actualizar los estados/subestados correspondientes. 
 	
  Json entrada -> 
  	
