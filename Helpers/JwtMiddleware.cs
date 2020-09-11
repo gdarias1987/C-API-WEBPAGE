@@ -15,16 +15,14 @@ namespace MELI.Helpers
     {
         private readonly RequestDelegate _next;
         private readonly IConfiguration _configuration;
-        private readonly IDataService _dataService;
 
-        public JwtMiddleware(RequestDelegate next, IConfiguration configuration, IDataService dataService)
+        public JwtMiddleware(RequestDelegate next, IConfiguration configuration)
         {
             _next = next;
             _configuration = configuration;
-            _dataService = dataService;
         }
 
-        public async Task Invoke(HttpContext context, IDataService dataService)
+        public async Task Invoke(HttpContext context)
         {
             var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
 

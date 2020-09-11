@@ -59,9 +59,10 @@ namespace MELI
 
             services.AddHealthChecks()
                 .AddMySql(Configuration["ConnectionString:MySQL"])
-                .AddDiskStorageHealthCheck(delegate(DiskStorageOptions diskStorageOptions){
-                    diskStorageOptions.AddDrive(@"C:\", 1000);
-                },"SSD_Drive",HealthStatus.Degraded);
+                //.AddDiskStorageHealthCheck(delegate(DiskStorageOptions diskStorageOptions){
+                //    diskStorageOptions.AddDrive(@"/", 1000);
+                //},"SSD_Drive",HealthStatus.Degraded)
+                ;
 
             string serviceType = Configuration["DataService"];
 

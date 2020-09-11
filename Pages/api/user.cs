@@ -33,21 +33,6 @@ namespace MELI.Pages.api
             _loggerService = loggerService;
         }
 
-        //[ControlAutorizacion]
-        //[HttpPost("test")]
-        //public async Task<ActionResult> TestAPI()
-        //{
-        //    return new JsonResult(new { message = "OK" }) { StatusCode = StatusCodes.Status200OK };
-        //}
-
-        //[HttpPost("test2")]
-        //public async Task<ActionResult> TestAPI2()
-        //{
-        //    List<Checkpoint> listado = await _dataService.GetCheckpointAsync();
-        //    return new JsonResult(new { message = listado }) { StatusCode = StatusCodes.Status200OK };
-        //}
-
-        //[ControlAutorizacion]
         [HttpPost("jwt")]
         public async Task<ActionResult> GenToken([FromBody]Usuario usuario)
 
@@ -61,7 +46,7 @@ namespace MELI.Pages.api
 
             if ( resultado != null )
             {
-                return new JsonResult(new { test = GenerateJwtToken(resultado) });
+                return new JsonResult(new { token = GenerateJwtToken(resultado) });
             }
             else
             {
@@ -75,7 +60,6 @@ namespace MELI.Pages.api
         {
             Usuario control = await _dataService.CheckUserLogin(logAttemp);
             
-            
             if (control != null)
             {
                 CookieAuth auth = new CookieAuth(HttpContext);
@@ -84,7 +68,7 @@ namespace MELI.Pages.api
             }
             else
             {
-                return Unauthorized();
+                return RedirectToPage("/Login");
             }
         }
 
