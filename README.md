@@ -1,11 +1,11 @@
 API - Examen MercadoLibre
 
 Funciones: 
-	* Se deberá generar un token JWT para realizar las operaciones de la API
-	* Se podrá crear eventos con su estado inicial en "Handling" y subestado en "null". 
-	* Se podrá recibir un paquete de checkpoint asincrónicos, y actualizar los checkpoints por su ID en su último estado lógico. 
-	* Se podrá consultar la información de un evento especifico mediante su ID.
-	* Se podrán visualizar todas las funciones mediante la UI desarrollada para la página inicial.
+	- Se deberá generar un token JWT para realizar las operaciones de la API
+	- Se podrá crear eventos con su estado inicial en "Handling" y subestado en "null". 
+	- Se podrá recibir un paquete de checkpoint asincrónicos, y actualizar los checkpoints por su ID en su último estado lógico. 
+	- Se podrá consultar la información de un evento especifico mediante su ID.
+	- Se podrán visualizar todas las funciones mediante la UI desarrollada para la página inicial.
 
 __________________________________________________________________________________________________________________
 Modelo de datos:
