@@ -19,15 +19,31 @@ namespace MELI.Services
         public string line = "\r\n------------------------------------------------------\r\n";
         string contentRoot = "";
 
+        string OS = "";
 
         public LoggerService(IConfiguration configuration)
         {
+            OS = configuration["OS"];
+            
             contentRoot = configuration.GetValue<string>(WebHostDefaults.ContentRootKey).ToString();
-            createFile(contentRoot + @"\log");
 
-            logPath = contentRoot + @"\Log\"; ;
-            logFile = logPath + "log.txt";
-            checkDir();
+            if(OS == "Windows_NT")
+            {
+                createFile(contentRoot + @"\log");
+
+                logPath = contentRoot + @"\Log\"; ;
+                logFile = logPath + "log.txt";
+                checkDir();
+            }
+            else
+            {
+                createFile(contentRoot + "/log");
+
+                logPath = contentRoot + @"/Log/"; ;
+                logFile = logPath + "log.txt";
+                checkDir();
+            }
+
         }
 
         public void checkDir()

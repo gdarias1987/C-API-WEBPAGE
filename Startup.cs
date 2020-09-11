@@ -57,11 +57,14 @@ namespace MELI
             services.AddControllers()
                 .AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null); // ADDED
 
+            string drive = Configuration["OS"] == "Windows_NT" ? @"C:\" : "/" ;
+
             services.AddHealthChecks()
                 .AddMySql(Configuration["ConnectionString:MySQL"])
-                //.AddDiskStorageHealthCheck(delegate(DiskStorageOptions diskStorageOptions){
-                //    diskStorageOptions.AddDrive(@"/", 1000);
-                //},"SSD_Drive",HealthStatus.Degraded)
+                .AddDiskStorageHealthCheck(delegate (DiskStorageOptions diskStorageOptions)
+                {
+                    diskStorageOptions.AddDrive(drive, 1000);
+                }, "SSD_Drive", HealthStatus.Degraded)
                 ;
 
             string serviceType = Configuration["DataService"];

@@ -62,6 +62,7 @@ namespace MELI.Pages.api
             
             if (control != null)
             {
+                _loggerService.recordLogMsj("LOGIN", "REGISTRO LOGEO DE USUARIO", control.usuario);
                 CookieAuth auth = new CookieAuth(HttpContext);
                 await auth.GenerateCookie(logAttemp);
                 return RedirectToPage("/Index");
