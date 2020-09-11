@@ -147,5 +147,22 @@ namespace MELI.Services
             return usuario;
         }
 
+        public async Task ClearDDBB()
+        {
+            string query = "TRUNCATE EventosDEV;";
+
+            try
+            {
+                using (_conn = new MySqlConnection(_conString))
+                {
+                    await _conn.QueryAsync(query);
+                }
+            }
+            catch (MySqlException ex)
+            {
+                _loggerService.recordLogError(_loggerService.GetLastMethodName(), ex.Message, "Truncate");
+            }
+
+        }
     }
 }

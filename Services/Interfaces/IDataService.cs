@@ -16,9 +16,7 @@ namespace MELI.Services
 
         Task UpdateCheckpointAsync(Checkpoint item);
 
-
-
-
+        Task ClearDDBB();
 
 
 

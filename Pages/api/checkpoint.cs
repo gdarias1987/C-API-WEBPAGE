@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace MELI.Pages
 {
-    //[Authorize(Roles = "ADMINISTRADOR")]
     [Route("api/[controller]")]
     [ApiController]
     public class checkpoint : ControllerBase
@@ -78,6 +77,15 @@ namespace MELI.Pages
         }
 
         [ControlAutorizacion]
+        [HttpDelete]
+        public async Task<ActionResult> clearDB()
+        {
+            await _dataService.ClearDDBB();
+
+            return new JsonResult(new { message = "DDBB CLEARED" }) { StatusCode = StatusCodes.Status200OK };
+        }
+
+        [ControlAutorizacion]
         [HttpPut]
         public async Task<ActionResult> handleEnvio([FromBody] List<Checkpoint> envio)
         {
@@ -101,7 +109,6 @@ namespace MELI.Pages
         private async Task handleCheckpoint(Checkpoint item)
         {
             // TRAIGO EL EVENTO RELACIONADO AL CHECKPOINT RECIBIDO CON EL ULTIMO ESTADO
-            //Checkpoint control = Checkpoint.listado.Where(C => C.idEvento == item.idEvento ).FirstOrDefault();
             Checkpoint control = await _dataService.GetCheckpointByIDAsync(item.idEvento);
 
             if ( control != null )

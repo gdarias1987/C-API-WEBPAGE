@@ -70,5 +70,12 @@ namespace MELI.Services
             user.usuario = "usuario";
             return user;
         }
+
+        public async Task ClearDDBB()
+        {
+            Checkpoint.listado = new List<Checkpoint>();
+            
+            await Task.Delay(10);
+        }
     }
 }
